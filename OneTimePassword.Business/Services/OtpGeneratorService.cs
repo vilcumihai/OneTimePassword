@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using OneTimePassword.Business.Services.Interfaces;
-using OneTimePassword.DataAccess;
 using OneTimePassword.Model.Dtos;
 using OneTimePassword.Model.Entities;
 using OtpNet;

@@ -1,16 +1,8 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
 using OneTimePassword.Api.Configurations;
-using OneTimePassword.Business.Handlers;
-using OneTimePassword.Business.Handlers.Interfaces;
-using OneTimePassword.Business.Services;
-using OneTimePassword.Business.Services.Interfaces;
 using OneTimePassword.DataAccess;
 using OneTimePassword.DataAccess.Seed;
 using OneTimePassword.Model.Entities;
-using System.Text;
-using IAuthenticationService = OneTimePassword.Business.Services.Interfaces.IAuthenticationService;
 
 var builder = WebApplication.CreateBuilder(args);
 
