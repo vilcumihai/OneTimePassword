@@ -1,4 +1,3 @@
-using OneTimePassword.Web.Data;
 using OneTimePassword.Web.Services;
 using OneTimePassword.Web.Services.Interfaces;
 
@@ -9,8 +8,6 @@ builder.Services.AddServerSideBlazor();
 
 builder.Services.AddScoped<IApiAuthenticationService, ApiAuthenticationService>();
 builder.Services.AddScoped<IAuthenticatorService, AutenticatorService>();
-
-builder.Services.AddSingleton<WeatherForecastService>();
 
 builder.Services.AddHttpClient();
 
