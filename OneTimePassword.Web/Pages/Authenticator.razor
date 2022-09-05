@@ -1,0 +1,48 @@
+﻿@page "/Authenticator"
+@inject IAuthenticatorService AuthenticatorService
+
+<PageTitle>Counter</PageTitle>
+
+<p>@Counter</p>
+<p></p>
+<p>@UserOtpDto.Code</p>
+
+@code {
+    private Timer _timer;
+    public UserOtpDto UserOtpDto = new UserOtpDto();
+    public int Counter = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetOtpCode();
+       StartTimer();
+    }
+
+    public void StartTimer()
+    {
+        _timer = new System.Timers.Timer(1000);
+        _timer.Elapsed += CountDownTimer;
+        _timer.Enabled = true;
+    }
+
+    public void CountDownTimer(Object source, ElapsedEventArgs e)
+    {
+        if (Counter > 0)
+        {
+            Counter -= 1;
+        }
+        else
+        {
+            GetOtpCode();
+        }
+
+        InvokeAsync(StateHasChanged);
+    }
+
+    public async Task GetOtpCode()
+    {
+        UserOtpDto = await AuthenticatorService.GetOtpCodeAsync();
+        Counter = (int)(UserOtpDto.ExpirationDate - DateTime.UtcNow).TotalSeconds;
+    }
+}
+

@@ -1,0 +1,50 @@
+﻿@page "/"
+@inject NavigationManager NavigationManager
+@inject IApiAuthenticationService ApiAuthenticationService;
+@inject ProtectedLocalStorage BrowserStorage
+
+<PageTitle>Login</PageTitle>
+
+<EditForm Model=@UserAuthenticationDto OnValidSubmit=@ValidFormSubmitted OnInvalidSubmit=@InvalidFormSubmitted>
+    <div class="mb-3">
+        <label class="form-label">Email address</label>
+        <input type="email" @bind="UserAuthenticationDto.Email" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" @bind="UserAuthenticationDto.Password" class="form-control">
+    </div>
+    @if (!string.IsNullOrEmpty(FormError))
+    {
+        <div class="mb-3">
+            <label class="error">@FormError</label>
+        </div>
+    }
+
+    <button type="submit" (click)="login()" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+
+
+    UserAuthenticationDto UserAuthenticationDto = new UserAuthenticationDto();
+    string FormError = string.Empty;
+
+    void ValidFormSubmitted(EditContext editContext)
+    {
+        var loginResponse = ApiAuthenticationService.Login(UserAuthenticationDto);
+        if (!loginResponse.IsAuthSuccessful)
+        {
+            FormError = loginResponse.ErrorMessage;
+            return;
+        }
+
+        BrowserStorage.SetAsync("Token", loginResponse.Token);
+
+        NavigationManager.NavigateTo("/Authenticator");
+    }
+
+    void InvalidFormSubmitted(EditContext editContext)
+    {
+    }
+}
